@@ -167,6 +167,8 @@ void compileUnsignedConstant(void) {
    switch (lookAhead->tokenType){
   case TK_NUMBER:
     eat(TK_NUMBER); break;
+  case TK_FLOAT:
+    eat(TK_FLOAT); break;
   case TK_CHAR:
     eat(TK_CHAR); break;
   case TK_IDENT:
@@ -302,6 +304,8 @@ void compileStatements2(void) {
     compileStatement();
     compileStatements2();
   }
+  else if(lookAhead->tokenType != KW_END)
+    eat(SB_SEMICOLON);
 }
 
 void compileStatement(void) {
@@ -560,6 +564,7 @@ void compileFactor(void) {
     break;
   case TK_STRING:
   case TK_NUMBER:
+  case TK_FLOAT:
   case TK_CHAR:
     compileUnsignedConstant(); 
     break;

@@ -82,21 +82,11 @@ Token* readNumber(void) {//////////////////////////////////Review///////////////
         if(charCodes[currentChar] == CHAR_PERIOD) {kt = 1;readChar();break;}
         readChar();
     }
-/*    if(kt == true)
-      if(charCodes[currentChar] != CHAR_DIGIT)
-        error(ERR_INVALIDNUMBER,lineNo,colNo);
-      else
-        while (i < MAX_IDENT_LEN && (charCodes[currentChar] == CHAR_DIGIT)) {
-          token->string[i++] = currentChar;
-          readChar();
-        }
-*/
-    
     if(kt == 1) {
     token->tokenType = TK_FLOAT;
     if(charCodes[currentChar] != CHAR_DIGIT) {
       token->tokenType = TK_NONE;
-      error(ERR_INVALIDNUMBER,colNo,lineNo);
+      error(ERR_INVALIDNUMBER,token->colNo,token->lineNo);
       readChar();
       return token;
     }
@@ -104,17 +94,21 @@ Token* readNumber(void) {//////////////////////////////////Review///////////////
       {
           token->string[i++] = currentChar;
           readChar();
-      }
+      }   
+   if(charCodes[currentChar] != CHAR_COMMA && charCodes[currentChar] != CHAR_SEMICOLON && charCodes[currentChar] != CHAR_RPAR) {
+      token->tokenType = TK_NONE;
+      error(ERR_INVALIDNUMBER,token->lineNo,token->colNo);
+      return token;
     }
+    }
+
     token->string[i] = '\0';
     return token;
 }
 
 Token* readString(void) {/////////////////////////////////////////////
  int i = 0;
- //int flag=0;
     Token *token = makeToken(TK_STRING, lineNo, colNo);
-    //char *str = token->string;
     readChar();
     while (i < MAX_IDENT_LEN && currentChar != EOF && charCodes[currentChar] != CHAR_DOUBLEQUOTE) {
         if(i == MAX_IDENT_LEN) {
@@ -128,17 +122,15 @@ Token* readString(void) {/////////////////////////////////////////////
           return token;
         }
         if(currentChar=='\n') {
-          //error(ERR_INVALIDSYMBOL,lineNo,colNo);
           token->string[i++] = 10;
           readChar();
         }
         else if(charCodes[currentChar] == CHAR_BACKSLASH){
-          //flag=1;
           readChar();
           if(currentChar == '"') token->string[i++] = '"';
           else if(currentChar == 't')  token->string[i++] = 9;
           else if(currentChar == 'n') token->string[i++] = 10;
-          else if(currentChar == CHAR_BACKSLASH) token->string[i++] = 92;
+          else if(currentChar == '\\') token->string[i++] = 92;
           else error(ERR_INVALIDSYMBOL,lineNo,colNo);
           readChar();
         }
@@ -268,7 +260,7 @@ Token* getToken(void) {
     return readConstChar();
   case CHAR_DOUBLEQUOTE:
     return readString();
-  case CHAR_MOD:
+   case CHAR_MOD:
     token = makeToken(SB_MOD,lineNo,colNo);
     readChar();
     return token;
