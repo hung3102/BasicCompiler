@@ -205,7 +205,10 @@ void compileConstant2(void) {
   switch(lookAhead->tokenType){
   case TK_NUMBER:
     eat(TK_NUMBER);
-   break;
+    break;
+  case TK_FLOAT:
+    eat(TK_FLOAT);
+    break;
   case TK_IDENT:
     eat(TK_IDENT); 
     break;

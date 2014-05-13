@@ -86,7 +86,7 @@ Token* readNumber(void) {//////////////////////////////////Review///////////////
     token->tokenType = TK_FLOAT;
     if(charCodes[currentChar] != CHAR_DIGIT) {
       token->tokenType = TK_NONE;
-      error(ERR_INVALIDNUMBER,token->colNo,token->lineNo);
+      error(ERR_INVALIDNUMBER,token->lineNo,token->colNo);
       readChar();
       return token;
     }
@@ -95,7 +95,7 @@ Token* readNumber(void) {//////////////////////////////////Review///////////////
           token->string[i++] = currentChar;
           readChar();
       }   
-   if(charCodes[currentChar] != CHAR_COMMA && charCodes[currentChar] != CHAR_SEMICOLON && charCodes[currentChar] != CHAR_RPAR) {
+   if(charCodes[currentChar] != CHAR_COMMA && charCodes[currentChar] != CHAR_SEMICOLON && charCodes[currentChar] != CHAR_LPAR && charCodes[currentChar] != CHAR_RPAR) {
       token->tokenType = TK_NONE;
       error(ERR_INVALIDNUMBER,token->lineNo,token->colNo);
       return token;

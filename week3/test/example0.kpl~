@@ -56,5 +56,5 @@ BEGIN
      END
    WHILE TH = "hung";
    A := B % C;
-   a := 4.7.;
+   a := 4.7(;
 END.  (* Example 4 *)

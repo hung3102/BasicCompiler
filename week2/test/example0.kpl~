@@ -24,11 +24,12 @@ BEGIN
   FOR  N := 1  TO  4  DO  
     BEGIN
       FOR  I:=1  TO  4  DO  
-        CALL  WRITEC("abc");
+        CALL  WRITEC("abc\t\"\\\n");
       CALL  READC(C);  
       CALL  WRITEC(C)
     END;
-  P:=1.4;  
+  (*CH:='ab';*)
+  P:=4.;
   Q:=2;
   FOR  N:=2  TO  4  DO
     BEGIN  
