@@ -74,39 +74,38 @@ Token* readIdentKeyword(void) {
   return token;
 }
 
-Token* readNumber(void) {//////////////////////////////////Review//////////////////////////////
-   int i = 0, kt = 0;
-    Token *token = makeToken(TK_NUMBER, lineNo, colNo);
-    while (i < MAX_IDENT_LEN && (charCodes[currentChar] == CHAR_DIGIT || charCodes[currentChar] == CHAR_PERIOD)) {
-        token->string[i++] = currentChar;
-        if(charCodes[currentChar] == CHAR_PERIOD) {kt = 1;readChar();break;}
-        readChar();
-    }
-    if(kt == 1) {
-    token->tokenType = TK_FLOAT;
-    if(charCodes[currentChar] != CHAR_DIGIT) {
-      token->tokenType = TK_NONE;
-      error(ERR_INVALIDNUMBER,token->lineNo,token->colNo);
-      readChar();
-      return token;
-    }
-    while (charCodes[currentChar] == CHAR_DIGIT)
-      {
-          token->string[i++] = currentChar;
-          readChar();
-      }   
-   if(charCodes[currentChar] != CHAR_COMMA && charCodes[currentChar] != CHAR_SEMICOLON && charCodes[currentChar] != CHAR_LPAR && charCodes[currentChar] != CHAR_RPAR) {
-      token->tokenType = TK_NONE;
-      error(ERR_INVALIDNUMBER,token->lineNo,token->colNo);
-      return token;
-    }
-    }
+Token* readNumber(void) {
+   Token *token = makeToken(TK_NUMBER, lineNo, colNo);
+  int count = 0;
+  int countPeriod = 0;
 
-    token->string[i] = '\0';
-    return token;
+  while ((currentChar != EOF) && (charCodes[currentChar] == CHAR_DIGIT || charCodes[currentChar] == CHAR_PERIOD)) {
+    if (charCodes[currentChar] == CHAR_PERIOD){
+      countPeriod++;          
+    }
+    token->string[count++] = (char)currentChar;
+    readChar();
+  }
+
+  if (count > 1 && charCodes[currentChar] == CHAR_RPAR && token->string[count-1] == '.'){
+    jump(-1);
+    count--;
+    countPeriod--;
+  }
+
+  if (countPeriod == 0 || countPeriod == -1){
+    token->string[count] = '\0';
+    token->value = atoi(token->string);
+  } else if (countPeriod == 1){
+    token->tokenType = TK_FLOAT;
+    token->string[count++] = '0';
+    token->string[count] = '\0';
+    token->value = atof(token->string);
+  } else error(ERR_INVALIDNUMBER, token->lineNo, token->colNo);
+  return token;
 }
 
-Token* readString(void) {/////////////////////////////////////////////
+Token* readString(void) {
  int i = 0;
     Token *token = makeToken(TK_STRING, lineNo, colNo);
     readChar();
@@ -325,7 +324,9 @@ void printToken(Token *token) {
   case KW_TYPE: printf("KW_TYPE\n"); break;
   case KW_VAR: printf("KW_VAR\n"); break;
   case KW_INTEGER: printf("KW_INTEGER\n"); break;
+  case KW_FLOAT: printf("KW_FLOAT\n"); break;
   case KW_CHAR: printf("KW_CHAR\n"); break;
+  case KW_STRING: printf("KW_STRING\n"); break;
   case KW_ARRAY: printf("KW_ARRAY\n"); break;
   case KW_OF: printf("KW_OF\n"); break;
   case KW_FUNCTION: printf("KW_FUNCTION\n"); break;

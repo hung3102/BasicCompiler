@@ -21,6 +21,13 @@ int readChar(void) {
   return currentChar;
 }
 
+int jump(int distance){
+ int k = fseek(inputStream, distance-1, SEEK_CUR);
+ colNo+=(distance-1);
+ readChar();
+ return k;
+}
+
 int openInputStream(char *fileName) {
   inputStream = fopen(fileName, "rt");
   if (inputStream == NULL)

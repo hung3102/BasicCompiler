@@ -6,7 +6,7 @@ VAR  A : ARRAY(. 10 .) OF T;
      CH : CHAR;
 
 PROCEDURE INPUT;
-VAR I : INTEGER;
+VAR I : FLOAT;
     TMP : INTEGER;
 BEGIN
   N := READI;
@@ -29,7 +29,7 @@ VAR I: INTEGER;
     S : INTEGER;
 BEGIN
     S := 0;
-    I := 1;
+    I := "abc";
     WHILE I <= N DO
      BEGIN
        S := S + A(.I.);
@@ -56,5 +56,5 @@ BEGIN
      END
    WHILE TH = "hung";
    A := B % C;
-   a := 4.7;
+   a := 4.8;
 END.  (* Example 4 *)

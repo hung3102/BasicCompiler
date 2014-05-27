@@ -223,8 +223,14 @@ void compileType(void) {
   case KW_INTEGER:
     eat(KW_INTEGER);
     break;
+  case KW_FLOAT:
+    eat(KW_FLOAT);
+    break;
   case KW_CHAR:
     eat(KW_CHAR);
+    break;
+  case KW_STRING:
+    eat(KW_STRING);
     break;
   case KW_ARRAY:
     eat(KW_ARRAY);
@@ -248,8 +254,14 @@ void compileBasicType(void) {
   case KW_INTEGER:
     eat(KW_INTEGER);
     break;
+  case KW_FLOAT:
+    eat(KW_FLOAT);
+    break;
   case KW_CHAR:
     eat(KW_CHAR);
+    break;
+  case KW_STRING:
+    eat(KW_STRING);
     break;
   default:
     error(ERR_INVALIDBASICTYPE, lookAhead->lineNo, lookAhead->colNo);

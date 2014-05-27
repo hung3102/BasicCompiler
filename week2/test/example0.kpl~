@@ -1,5 +1,5 @@
 PROGRAM  EXAMPLE3;  (* TOWER OF HANOI *)
-VAR  I:INTEGER;  
+VAR  I:FLOAT;  
      N:INTEGER;  
      P:INTEGER;  
      Q:INTEGER;
@@ -29,11 +29,11 @@ BEGIN
       CALL  WRITEC(C)
     END;
   (*CH:='ab';*)
-  P:=4.;
+  P:=4.8);
   Q:=2;
   FOR  N:=2  TO  4  DO
     BEGIN  
-      I:=0;  
+      I:=0.8;  
       CALL  HANOI(N,P,Q);  
       CALL  WRITELN  
     END

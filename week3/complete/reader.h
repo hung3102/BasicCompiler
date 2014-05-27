@@ -13,5 +13,6 @@
 int readChar(void);
 int openInputStream(char *fileName);
 void closeInputStream(void);
+int jump(int distance);
 
 #endif
